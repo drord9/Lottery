@@ -18,7 +18,7 @@ contract Lottery {
     
     // modifier to check if caller is the lottery operator
     modifier isOperator() {
-        require( (msg.sender == lotteryOperator) ), "Caller is not the lottery operator");
+        require( (msg.sender == lotteryOperator) || (RemainingTickets() == 0), "Caller is not the lottery operator");
         _;
     }
     
@@ -43,6 +43,10 @@ contract Lottery {
         for (uint i = 0; i < numOfTicketsToBuy; i++)
         {
             tickets.push(msg.sender);
+        }
+        if (RemainingTickets() == 0) 
+        {
+             DrawWinnerTicket();
         }
     }
     
